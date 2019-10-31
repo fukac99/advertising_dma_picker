@@ -16,6 +16,14 @@
   stroke-opacity: .7;
 }
 
+.pickedDma {
+  fill: red;
+}
+
+.unpickedDma {
+  fill: "#aaa";
+}
+
 #dma-borders {
   fill: none;
   stroke: black;
@@ -88,13 +96,13 @@ svg.append("rect")
 var g = svg.append("g");
 
 var defaultFill = "#aaa";
-var toggleColor = (function(){
-   var currentColor = defaultFill;
-
-    return function(){
-        currentColor = currentColor == defaultFill ? "red" : defaultFill;
-        d3.select(this).style("fill", currentColor);
-    }
+var toggleClass = (function(){
+	var thisElement = d3.select(this);
+   	if (thisElement.classed("pickedDma")) {
+   		thisElement.classed("unpickedDma");
+   	} else {
+   		thisElement.classed("pickedDma")
+   	}
 })();
 
 d3.json("nielsentopo.json", function(error, dma) {
@@ -118,8 +126,7 @@ d3.json("nielsentopo.json", function(error, dma) {
     .enter()
     .append("path")
     .attr("d", path)
-    .on("click", toggleColor)
-    
+    .on("click", toggleClass)
     .on("mouseover", function(d){
       d3.select(this)
       .attr("fill", "orange");
@@ -143,7 +150,7 @@ d3.json("nielsentopo.json", function(error, dma) {
     })
     
     .attr("opacity", 0.9)
-    .attr("fill", defaultFill);
+    .attr("class", "unpickedDma");
 
   // add dma borders
   g.append("path", ".graticule")

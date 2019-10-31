@@ -118,10 +118,7 @@ d3.json("nielsentopo.json", function(error, dma) {
     .enter()
     .append("path")
     .attr("d", path)
-    .on("click", function(){
-    	var nextColor = this.style.fill == defaultFill ? "red" : defaultFill;
-        d3.select(this).attr("fill", nextColor);
-    })
+    .on("click", toggleColor)
     
     .on("mouseover", function(d){
       d3.select(this)

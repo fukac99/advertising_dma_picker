@@ -99,9 +99,9 @@ var defaultFill = "#aaa";
 var toggleClass = (function(){
 	var thisElement = d3.select(this);
    	if (thisElement.classed("pickedDma")) {
-   		thisElement.classed("unpickedDma");
+   		thisElement.attr("class", "unpickedDma");
    	} else {
-   		thisElement.classed("pickedDma")
+   		thisElement.attr("class", "pickedDma");
    	}
 })();
 

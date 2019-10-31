@@ -119,7 +119,6 @@ d3.json("nielsentopo.json", function(error, dma) {
     .enter()
     .append("path")
     .attr("d", path)
-    .attr("class", "unpickedDma")
     .on("click", pickedDma)
     .on("mouseover", function(d){
       d3.select(this)
@@ -142,6 +141,8 @@ d3.json("nielsentopo.json", function(error, dma) {
       d3.select(this)
       .attr("fill", defaultFill)
     })
+    .attr("opacity", 0.9)
+    .attr("fill", defaultFill)
     ;
 
   // add dma borders

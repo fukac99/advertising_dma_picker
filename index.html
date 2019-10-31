@@ -96,14 +96,6 @@ svg.append("rect")
 var g = svg.append("g");
 
 var defaultFill = "#aaa";
-var toggleClass = (function(){
-	var thisElement = d3.select(this);
-   	if (thisElement.classed("pickedDma")) {
-   		thisElement.attr("class", "unpickedDma");
-   	} else {
-   		thisElement.attr("class", "pickedDma");
-   	}
-})();
 
 d3.json("nielsentopo.json", function(error, dma) {
 
@@ -126,7 +118,7 @@ d3.json("nielsentopo.json", function(error, dma) {
     .enter()
     .append("path")
     .attr("d", path)
-    .on("click", toggleClass)
+    .on("click", pickedDma)
     .on("mouseover", function(d){
       d3.select(this)
       .attr("fill", "orange");
@@ -166,6 +158,10 @@ d3.json("nielsentopo.json", function(error, dma) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+function pickedDma() function() {
+	d3.select(this).classed("pickedDma", true);
+};
 
 </script>
 </body>

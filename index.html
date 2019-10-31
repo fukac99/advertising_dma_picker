@@ -55,8 +55,8 @@
 <script src="https://d3js.org/d3.v3.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
 <script>
-var width = 960,
-    height = 500;
+var width = window.innerWidth,
+    height = window.innerHeight;
 // sets the type of view
 var projection = d3.geo.albersUsa()
     .scale(1070) // size, bigger is bigger

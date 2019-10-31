@@ -22,6 +22,7 @@
 
 .unpickedDma {
   fill: "#aaa";
+  opacity: 0.9;
 }
 
 #dma-borders {
@@ -140,8 +141,6 @@ d3.json("nielsentopo.json", function(error, dma) {
       d3.select(this)
       .attr("fill", defaultFill)
     })
-    
-    .attr("opacity", 0.9)
     .attr("class", "unpickedDma");
 
   // add dma borders
@@ -160,7 +159,12 @@ function numberWithCommas(x) {
 }
 
 function pickedDma() {
-	d3.select(this).classed("pickedDma", true);
+	if (d3.select(this).classed("pickedDma")) {
+		d3.select(this).classed("unpickedDma", true);
+	} else {
+		d3.select(this).classed("pickedDma", true);
+	}
+	
 }
 
 </script>

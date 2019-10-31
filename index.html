@@ -88,6 +88,14 @@ svg.append("rect")
 var g = svg.append("g");
 
 var defaultFill = "#aaa";
+var toggleColor = (function(){
+   var currentColor = defaultFill;
+
+    return function(){
+        currentColor = currentColor == defaultFill ? "red" : defaultFill;
+        d3.select(this).style("fill", currentColor);
+    }
+})();
 
 d3.json("nielsentopo.json", function(error, dma) {
 
@@ -110,7 +118,10 @@ d3.json("nielsentopo.json", function(error, dma) {
     .enter()
     .append("path")
     .attr("d", path)
-    //.on("click", clicked)
+    .on("click", function(){
+    	var nextColor = this.style.fill == defaultFill ? "red" : defaultFill;
+        d3.select(this).attr("fill", nextColor);
+    })
     
     .on("mouseover", function(d){
       d3.select(this)

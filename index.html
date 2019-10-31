@@ -119,6 +119,7 @@ d3.json("nielsentopo.json", function(error, dma) {
     .enter()
     .append("path")
     .attr("d", path)
+    .attr("class", "unpickedDma")
     .on("click", pickedDma)
     .on("mouseover", function(d){
       d3.select(this)
@@ -141,7 +142,7 @@ d3.json("nielsentopo.json", function(error, dma) {
       d3.select(this)
       .attr("fill", defaultFill)
     })
-    .attr("class", "unpickedDma");
+    ;
 
   // add dma borders
   g.append("path", ".graticule")
@@ -160,9 +161,11 @@ function numberWithCommas(x) {
 
 function pickedDma() {
 	if (d3.select(this).classed("pickedDma")) {
+		d3.select(this).classed("pickedDma", false);
 		d3.select(this).classed("unpickedDma", true);
 	} else {
-		d3.select(this).classed("pickedDma", true);
+		d3.select(this).classed("pickedDma", true)
+		d3.select(this).classed("unpickedDma", false);
 	}
 	
 }

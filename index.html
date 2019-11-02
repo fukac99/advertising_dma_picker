@@ -250,7 +250,7 @@ function pickedDmaFromCheckbox(){
         cbId = cb.property("value");
 
         // If the box is check, I show the group
-        if(cb.property("checked")){
+        if(cb.property("checked") || d3.select("#path" + cbId).classed("pickedDma")){
           d3.select("#path" + cbId).attr("class", "pickedDma");
 
         // Otherwise I hide it

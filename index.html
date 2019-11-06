@@ -32,8 +32,12 @@
   stroke-opacity: .7;
 }
 
-.pickedDma {
+.pickedDmaTreatment {
   fill: red;
+}
+
+.pickedDmaControl {
+  fill: blue;
 }
 
 .unpickedDma {
@@ -156,14 +160,17 @@ d3.json("nielsentopo.json", function(error, dma) {
       	.attr("align", "left")
       	.append("p")
   		.html('<label class="checkboxLabel" id="checkboxLabel' + d["DMA Code"] + 
-  		'"><input type="checkbox" class="checkbox" value="' + d["DMA Code"] + 
-  		'" id="checkbox' + d["DMA Code"] + '">' + d["Designated Market Area (DMA)"] + '</label>');
+  		'"><input type="checkbox" class="checkboxTreatment" value="' + d["DMA Code"] + 
+  		'" id="checkboxTreatment' + d["DMA Code"] + '"><input type="checkbox" class="checkboxControl" value="' 
+  		+ d["DMA Code"] + '" id="checkboxControl' + d["DMA Code"] + '">' + 
+  		d["Designated Market Area (DMA)"] + '</label>');
   		
   		
   });
   
   // When a button change, I run the update function
-  d3.selectAll('.checkbox').on("change", pickedDmaFromCheckbox);
+  d3.selectAll('.checkboxTreatment').on("change", pickedDmaFromCheckbox);
+  d3.selectAll('.checkboxControl').on("change", pickedDmaFromCheckbox);
   
   // Define the div for the tooltip
   var div_textbox = d3.select(".map")
@@ -231,12 +238,21 @@ function numberWithCommas(x) {
 }
 
 function pickedDma() {
-	if (d3.select(this).classed("pickedDma")) {
-		d3.select(this).classed("pickedDma", false);
-		d3.select(this).classed("unpickedDma", true);
+	if (d3.select(this).classed("pickedDmaTreatment")) {
+		d3.select(this)
+			.classed("pickedDmaTreatment", false)
+			.classed("unpickedDma", false)
+			.classed("pickedDmaControl", true);
+	} else if (d3.select(this).classed("pickedDmaControl")) {
+		d3.select(this)
+			.classed("pickedDmaTreatment", false)
+			.classed("unpickedDma", true)
+			.classed("pickedDmaControl", false);
 	} else {
-		d3.select(this).classed("pickedDma", true)
-		d3.select(this).classed("unpickedDma", false);
+		d3.select(this)
+			.classed("pickedDmaTreatment", true)
+			.classed("unpickedDma", false)
+			.classed("pickedDmaControl", false);
 	}
 	
 }
@@ -245,15 +261,33 @@ function pickedDma() {
 function pickedDmaFromCheckbox(){
 
 	// For each check box:
-    d3.selectAll(".checkbox").each(function(d){
+    d3.selectAll(".checkboxTreatment").each(function(d){
     	cb = d3.select(this);
         cbId = cb.property("value");
 
         // If the box is check, I show the group
-        if(cb.property("checked") || d3.select("#path" + cbId).classed("pickedDma")){
-          d3.select("#path" + cbId).attr("class", "pickedDma");
+        if(cb.property("checked") || d3.select("#path" + cbId).classed("pickedDmaTreatment")){
+          d3.select("#path" + cbId).attr("class", "pickedDmaTreatment");
 
         // Otherwise I hide it
+        } else if (d3.select("#checkboxControl" + cbId).property("checked")){
+          d3.select("#path" + cbId).attr("class", "pickedDmaControl");
+        } else {
+          d3.select("#path" + cbId).attr("class", "unpickedDma");
+        }
+      })
+      
+    d3.selectAll(".checkboxControl").each(function(d){
+    	cb = d3.select(this);
+        cbId = cb.property("value");
+
+        // If the box is check, I show the group
+        if(cb.property("checked") || d3.select("#path" + cbId).classed("pickedDmaControl")){
+          d3.select("#path" + cbId).attr("class", "pickedDmaControl");
+
+        // Otherwise I hide it
+        } else if (d3.select("#checkboxTreatment" + cbId).property("checked")){
+          d3.select("#path" + cbId).attr("class", "pickedDmaTreatment");
         } else {
           d3.select("#path" + cbId).attr("class", "unpickedDma");
         }
